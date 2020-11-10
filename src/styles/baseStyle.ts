@@ -2,7 +2,7 @@ import { css } from "styled-components"
 
 export const baseStyle = css`
   :root {
-    font-size: 10px;
+    font-size: clamp(10px, 1vw, 13px);
     line-height: 1.5;
     text-align: start;
   }
@@ -10,7 +10,7 @@ export const baseStyle = css`
   body {
     margin-left: auto;
     margin-right: auto;
-    padding: 12px;
-    width: 1024px;
+    padding: 1rem;
+    width: 100rem;
   }
 `
