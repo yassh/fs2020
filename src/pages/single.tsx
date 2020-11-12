@@ -1,7 +1,8 @@
-import React, { useMemo } from "react"
+import React, { useEffect, useMemo } from "react"
 import { NextPage } from "next"
 import Head from "next/head"
 import styled from "styled-components"
+import base64url from "base64-url"
 import { GoeSelect } from "../single/components/GoeSelect"
 import { PcsSelect } from "../single/components/PcsSelect"
 import { useData, Data } from "../single/hooks/useData"
@@ -17,6 +18,7 @@ import {
 const Page: NextPage = () => {
   const {
     data,
+    setData,
     setTitle,
     setSegment,
     setElementAbbr,
@@ -46,7 +48,21 @@ const Page: NextPage = () => {
   ])
   const pcsStr = useMemo(() => (pcs / 100).toFixed(2), [pcs])
 
-  console.log(data)
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.hash.substring(1))
+    const dataJson = searchParams.get("data")
+    if (dataJson) {
+      setData(JSON.parse(base64url.decode(dataJson)))
+    }
+  }, [])
+
+  useEffect(() => {
+    console.log(data)
+
+    const searchParams = new URLSearchParams()
+    searchParams.set("data", base64url.encode(JSON.stringify(data)))
+    window.location.hash = searchParams.toString()
+  }, [data])
 
   return (
     <>
@@ -175,7 +191,7 @@ const Page: NextPage = () => {
               const number = index + 1
 
               return (
-                <Tr>
+                <Tr key={index}>
                   <Td style={{ textAlign: "right" }}>{number}</Td>
                   <Td>
                     <TextInput
@@ -196,7 +212,7 @@ const Page: NextPage = () => {
                   <Td style={{ textAlign: "right" }}>2.50</Td>
                   <Td></Td>
                   {element.goe.map((value, judge) => (
-                    <Td style={{ textAlign: "center" }}>
+                    <Td style={{ textAlign: "center" }} key={judge}>
                       <GoeSelect
                         value={value}
                         onChange={(value) => setElementGoe(value, index, judge)}
@@ -243,7 +259,7 @@ const Page: NextPage = () => {
               <Td style={{ textAlign: "right" }}>{factorStr}</Td>
               <Td></Td>
               {data.pc.skatingSkills.map((value, index) => (
-                <Td style={{ textAlign: "center" }}>
+                <Td style={{ textAlign: "center" }} key={index}>
                   <PcsSelect
                     value={value}
                     onChange={(value) => setPcs("skatingSkills", value, index)}
@@ -260,7 +276,7 @@ const Page: NextPage = () => {
               <Td style={{ textAlign: "right" }}>{factorStr}</Td>
               <Td></Td>
               {data.pc.transitions.map((value, index) => (
-                <Td style={{ textAlign: "center" }}>
+                <Td style={{ textAlign: "center" }} key={index}>
                   <PcsSelect
                     value={value}
                     onChange={(value) => setPcs("transitions", value, index)}

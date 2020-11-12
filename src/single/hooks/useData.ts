@@ -121,6 +121,7 @@ export const useData = () => {
 
   return {
     data,
+    setData,
     setTitle,
     setSegment,
     setElementAbbr,

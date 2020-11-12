@@ -3,6 +3,7 @@ import { css } from "styled-components"
 export const baseStyle = css`
   :root {
     font-size: clamp(10px, 1vw, 13px);
+    font-family: sans-serif;
     line-height: 1.5;
     text-align: start;
   }

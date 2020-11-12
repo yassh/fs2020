@@ -25,7 +25,9 @@ export const NumberSelect: FC<Props> = (props) => {
   return (
     <Select onChange={handleChange} value={value ?? ""}>
       {options.map((option) => (
-        <option value={option.value ?? ""}>{option.label}</option>
+        <option value={option.value ?? ""} key={option.value}>
+          {option.label}
+        </option>
       ))}
     </Select>
   )
